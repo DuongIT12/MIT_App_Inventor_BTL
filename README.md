@@ -417,9 +417,22 @@ Dựa theo gợi ý sáng tạo, bạn có thể xây dựng **“Ứng dụng H
 ---
 
 
+# APP 1: SỬ DỤNG DỮ LIỆU CHUẨN BỊ TRƯỚC TRONG ASSETS
 
-
-
+- Cấu trúc project
+  app/  
+├── manifests/  
+│   └── AndroidManifest.xml   ← khai báo app, quyền  
+├── java/   
+│   └── com.sinhvien.baitaplon/  
+│       └── MainActivity.java  ← code Java  
+└── res/  
+    ├── layout/  
+    │   └── activity_main.xml  ← giao diện  
+    ├── values/  
+    │   ├── strings.xml        ← lưu text tránh hardcode  
+    │   └── colors.xml  
+    └── drawable/              ← hình ảnh   
 
 
 
