@@ -1,4 +1,4 @@
-<img width="784" height="457" alt="image" src="https://github.com/user-attachments/assets/2ecbb1fc-ec0c-474c-99e5-469ed3968e7d" /># MIT_App_Inventor_BTL
+# MIT_App_Inventor_BTL
 # 1. QUY TRÌNH TẠO RA PHẦN MỀM & THÀNH PHẦN GIAO DIỆN
 
 ## Thanh công cụ (Palette) gồm những gì?
@@ -418,8 +418,15 @@ Dựa theo gợi ý sáng tạo, bạn có thể xây dựng **“Ứng dụng H
 
 
 # APP 1: SỬ DỤNG DỮ LIỆU CHUẨN BỊ TRƯỚC TRONG ASSETS
+#### BƯỚC 1: Tạo Project mới
+1. Mở Android Studio  
+2. Nhấn "New Project"  
+3. Chọn template: "Empty Views Activity" → Next     
+<img width="1917" height="1075" alt="21" src="https://github.com/user-attachments/assets/9faa80f5-e455-4edd-b3d5-60f8dc264025" />
+4. Điền thông tin:  
 
-- Cấu trúc project
+   
+##### Cấu trúc project
   app/  
 ├── manifests/  
 │   └── AndroidManifest.xml   ← khai báo app, quyền  
@@ -435,15 +442,41 @@ Dựa theo gợi ý sáng tạo, bạn có thể xây dựng **“Ứng dụng H
     └── drawable/              ← hình ảnh   
 
 
+#### BƯỚC 2: Tạo 3 Activity
 
+Project mới đã có sẵn MainActivity (đây là Activity1 - About).
+##### Tạo thêm Activity2 và Activity3:
+1.Chuột phải vào package com.sinhvien.baitaplon
+2. **New → Activity → Empty Views Activity**
+3. Đặt tên GiaiToanActivity → Finish   
+<img width="1904" height="1079" alt="22" src="https://github.com/user-attachments/assets/bfce4d3d-a8f6-4a78-9e32-199d26802a4c" />
 
+4. Làm lại → đặt tên WebViewActivity → Finish
 
+#### BƯỚC 3 : Chạy chương trình + test các chức năng
+1. Cài đặt và RUN chương trình
+<img width="1919" height="1003" alt="23" src="https://github.com/user-attachments/assets/3e81cde9-42d4-49e3-8aff-c7d36fd9d9c8" />
 
+2. Giao diện ban đầu của chương trình:
+- Có tên ,mssv, lớp,
+- Có 2 button : *Giải pt bậc 3*, *Xem web  K58KTP*   
+<img width="749" height="859" alt="24" src="https://github.com/user-attachments/assets/1cb187a3-a23a-48c2-ac17-02022261c27e" />
 
+3. Vào giao diện **Giải PT Bậc 3**
+- Nhập các giá trị để tính toán.   
+<img width="378" height="719" alt="25" src="https://github.com/user-attachments/assets/a6daf25d-8714-4d74-9ce4-4fc2b49c99c0" />
 
+- Khi đó JSON LOG cũng được xuất hiện trên  **https://k58kmt.tdh.io.vn/**
 
+  <img width="1914" height="1280" alt="25" src="https://github.com/user-attachments/assets/a0fad7c7-6275-4f04-b99f-ee89925ba3aa" />
 
+4. Vào giao diện **Xem WEB K58**
 
+<img width="375" height="439" alt="image" src="https://github.com/user-attachments/assets/aee0db35-c992-4d0a-863f-7c267a88d0ea" />
+
+- SV LOG CŨNG ĐƯỢC UPDATE LIÊN TỤC, MỖI KHI TRUY CẬP VÀO WEB
+
+<img width="1838" height="65" alt="image" src="https://github.com/user-attachments/assets/b53b9232-9ff2-42d0-babb-def7e699e435" />
 
 
 
