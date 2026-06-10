@@ -125,4 +125,148 @@ Kéo thả block trong MIT App Inventor thực chất là hình thức **Lập t
 * **Cách sử dụng & Ý nghĩa:** Người dùng có thể kéo một khối hoặc một cụm khối lệnh logic thả vào Backpack để lưu trữ (Copy). Khi di chuyển sang một Screen khác trong cùng dự án, chỉ cần mở Backpack và kéo cụm khối đó ra màn hình làm việc (Paste). Tính năng này giúp tái sử dụng mã nguồn nhanh chóng, giảm thiểu tối đa thời gian xây dựng lại các khối lệnh có chung logic (như các nút bấm quay lại màn hình cũ).
 
 
+# 2. VIẾT APP SỬ DỤNG ANDROID STUDIO
+
+## File AndroidManifest.xml và cơ chế xin quyền
+### a. File AndroidManifest.xml mô tả gì?
+
+**AndroidManifest.xml** là file cấu hình cốt lõi và bắt buộc phải có của mọi ứng dụng Android.  
+Nó đóng vai trò là cầu nối thông tin giữa ứng dụng của bạn và Hệ điều hành Android (OS) cùng Google Play.  
+
+File này mô tả:
+
+- **Cấu trúc ứng dụng:**  
+  Khai báo toàn bộ các thành phần cấu thành nên app (bao gồm các màn hình *Activity*, các dịch vụ chạy ngầm *Service*, bộ nhận sự kiện hệ thống *Broadcast Receiver*, và bộ quản lý dữ liệu *Content Provider*).  
+  Nếu một *Activity* không được khai báo tại đây, hệ thống sẽ không cho phép khởi chạy nó.
+
+- **Thông tin định danh:**  
+  Tên gói ứng dụng (*package*), biểu tượng (*icon*), tên hiển thị (*label*), và giao diện chủ đạo (*theme*).
+
+- **Yêu cầu hệ thống:**  
+  Các cấu hình phần cứng tối thiểu để app chạy được (như phiên bản Android SDK thấp nhất, cấu hình camera, cảm biến).
+
+- **Cơ chế an toàn:**  
+  Khai báo các quyền truy cập tài nguyên phần cứng hoặc phần mềm hệ thống.
+
+### b. Khi ứng dụng cần quyền (Permission), khai báo như thế nào? Để làm gì?
+
+- **Cách khai báo:**  
+  Bạn sử dụng thẻ `<uses-permission>` đặt nằm phía ngoài thẻ `<application>` và nằm trong thẻ cấu hình gốc `<manifest>`.
+
+- **Ví dụ cụ thể khi cần quyền truy cập Internet và quyền đọc bộ nhớ máy:**
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/config/android" package=...>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <application ...>
+        ...
+    </application>
+</manifest>
+```
+
+## 2. VÒNG ĐỜI CỦA ỨNG DỤNG ANDROID VÀ HÀM onCreate
+
+### Vòng đời ứng dụng Android (Activity Lifecycle) là gì?
+
+Một màn hình (Activity) trong Android không chỉ đơn thuần là mở lên và đóng lại, mà nó chịu sự quản lý nghiêm ngặt của Hệ điều hành thông qua một vòng tuần hoàn các trạng thái.  
+Hệ điều hành cung cấp các hàm phản hồi (Callback) để ứng dụng tự xử lý dữ liệu khi trạng thái thay đổi:
+
+- **onCreate()**: Kích hoạt khi Activity bắt đầu được khởi tạo trong bộ nhớ.  
+- **onStart()**: Màn hình bắt đầu xuất hiện trước mắt người dùng nhưng chưa tương tác được.  
+- **onResume()**: Ứng dụng chạy ở tiền cảnh (foreground), người dùng bắt đầu tương tác trực tiếp (gõ phím, bấm nút).  
+- **onPause()**: Ứng dụng bị mất tập trung một phần (ví dụ có một hộp thoại thông báo/báo thức đè lên một phần màn hình).  
+- **onStop()**: Màn hình bị che khuất hoàn toàn (người dùng bấm nút Home ra ngoài hoặc chuyển hẳn sang app khác).  
+- **onDestroy()**: Ứng dụng bị giải phóng hoàn toàn khỏi bộ nhớ (người dùng vuốt tắt app hoặc bấm nút Back thoát hẳn).
+
+
+
+### Tại sao code tự sinh sau khi tạo dự án luôn có sẵn hàm onCreate?
+- Hàm onCreate() là điểm bắt đầu bắt buộc (Entry Point) của một màn hình. Hệ điều hành Android quy định rằng khi khởi chạy một Activity, việc xây dựng cấu trúc nền tảng phải được làm tại đây.
+Vì vậy, Android Studio tự động sinh ra hàm này để lập trình viên thực hiện 3 nhiệm vụ sống còn:
+
+
+## Hàm onCreate() trong Android
+
+Khi tạo dự án mới trong Android Studio, mã nguồn tự sinh luôn có sẵn hàm **onCreate()**, vì đây là điểm bắt đầu bắt buộc của một màn hình (*Activity*).
+
+Ba nhiệm vụ chính của hàm này:
+
+1. Gọi **super.onCreate(savedInstanceState)** để hệ thống thiết lập lại trạng thái cũ của màn hình (nếu có).  
+2. Liên kết mã nguồn Java với file giao diện XML bằng hàm **setContentView(R.layout.activity_main)**.  
+3. Khởi tạo các biến toàn cục, cấu hình các bộ lắng nghe sự kiện, hoặc ánh xạ các View (bằng **findViewById**) để ứng dụng sẵn sàng hoạt động.  
+
+Nếu thiếu hàm **onCreate()**, màn hình sẽ trống rỗng và không thể kích hoạt các trạng thái tiếp theo trong vòng đời ứng dụng.
+
+
+## 3. KIỂM TRA QUYỀN ĐỘNG TRONG CODE JAVA
+
+### Kiểm tra quyền và ý nghĩa
+
+Từ phiên bản Android 6.0 (API 23) trở đi, ngoài việc khai báo trong file Manifest, ứng dụng bắt buộc phải xin quyền trực tiếp từ người dùng tại thời điểm app đang chạy (Runtime Permission) đối với các quyền nguy hiểm (đọc bộ nhớ, camera, vị trí).
+
+### Ví dụ kiểm tra quyền đọc bộ nhớ:
+
+```java
+// Kiểm tra xem ứng dụng đã được cấp quyền đọc bộ nhớ chưa
+if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+        != PackageManager.PERMISSION_GRANTED) {
+
+    // Ý nghĩa: Nếu CHƯA ĐƯỢC CẤP QUYỀN -> tiến hành hiển thị hộp thoại hệ thống yêu cầu quyền
+    ActivityCompat.requestPermissions(this,
+            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
+} else {
+    // Ý nghĩa: Nếu ĐÃ ĐƯỢC CẤP QUYỀN -> thực thi công việc tương ứng ngay lập tức
+    docDuLieuTuAssets();
+}
+```
+### Ý nghĩa của việc kiểm tra:
+- Tránh việc ứng dụng bị hệ điều hành tắt đột ngột (Crash app) do vi phạm chính sách bảo mật khi cố tình truy cập tài nguyên hệ thống mà không có sự đồng ý của người dùng.
+   - Đảm bảo tính linh hoạt: Người dùng có thể thu hồi quyền trong phần cài đặt thiết bị bất cứ lúc nào, việc check quyền liên tục giúp ứng dụng luôn biết trạng thái chính xác để xử lý kịch bản lỗi mượt mà.
+ 
+## TỐI ƯU GIAO DIỆN XML VÀ CƠ CHẾ THAM CHIẾU (TRÁNH HARDCODE)
+Cú pháp của việc tham chiếu là gì?  
+- Khi thiết kế giao diện, thay vì viết chữ trực tiếp vào file XML (android:text="Nguyễn Thế Dương" - gọi là Hardcode) , bạn cần đưa chuỗi văn bản đó vào file tài nguyên tập trung tại thư mục res/values/strings.xml.
+
+#### Khai báo và tham chiếu String Resource trong Android
+
+- **Cú pháp khai báo trong `strings.xml`:**
+```xml
+<string name="txt_username">Nguyễn Thế Dương</string>
+```
+- Cú pháp tham chiếu trong file giao diện XML:    
+Ngôn ngữ XML sử dụng ký tự @ để đại diện cho việc gọi tài nguyên hệ thống.  
+```android:text="@string/txt_username"```  
+  
+- Cú pháp tham chiếu trong file xử lý Java:  
+Ngôn ngữ Java sử dụng lớp đối tượng cấu trúc R (Resource) được biên dịch tự động làm đầu mối truy cập.
+```textView.setText(R.string.txt_username)```  
+
+### Ưu điểm của việc tham chiếu này?
+
+- **Quản lý tập trung:**  
+  Khi muốn thay đổi một câu chữ được dùng ở 10 màn hình khác nhau, bạn chỉ cần chỉnh sửa đúng 1 dòng duy nhất trong file `strings.xml` thay vì phải đi tìm mọi từng file giao diện.  
+
+- **Tách biệt logic và giao diện:**  
+  Giúp lập trình viên tập trung thiết kế cấu trúc bố cục, còn đội ngũ biên dịch nội dung hoặc thiết kế nội dung làm việc độc lập trên file cấu hình text.  
+
+---
+
+### OS hỗ trợ tự động lấy giá trị theo LOCATION, LANGUAGE, THEME giúp app làm được điều gì?
+
+Việc hỗ trợ tự động (**Auto-resource resolution**) này giúp ứng dụng đạt được khả năng **Bản địa hóa (Localization)** và **Tương thích giao diện linh hoạt** mà không cần lập trình viên phải viết thêm bất kỳ dòng code logic `if/else` phức tạp nào để kiểm tra cấu hình máy của người dùng.  
+
+Cụ thể, hệ điều hành Android hoạt động dựa trên cơ chế đặt tên thư mục tài nguyên theo hậu tố quy chuẩn:
+
+- **LANGUAGE & LOCATION:**  
+  Nếu người dùng cài đặt máy điện thoại là tiếng Anh, OS tự động quét và lấy chữ trong thư mục `res/values-en/strings.xml`.  
+  Nếu người dùng đổi máy sang tiếng Việt, OS tự chọn thư mục `res/values-vi/strings.xml`.  
+
+- **THEME:**  
+  Khi người dùng bật chế độ nền tối (Dark Mode), hệ thống tự động ánh xạ cấu hình màu sắc trong thư mục `res/values-night/themes.xml` thay vì thư mục `values` thông thường.
+
+
+
+
+
 
